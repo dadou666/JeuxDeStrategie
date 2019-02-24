@@ -56,7 +56,7 @@ public class EditerStrategie implements Painter {
 
 	public static void main(String args[]) throws JAXBException {
 		SwingBuilder sb = new SwingBuilder();
-		new EditerStrategie(sb, Strategie.charger("F:/GitHub/JeuxDeStrategie/src/model/strategie.xml"),true);
+		new EditerStrategie(sb, Strategie.charger("/model/strategie.xml"),true);
 		sb.paint("Editer strategie");
 	}
 	public void sauvegarder()  {

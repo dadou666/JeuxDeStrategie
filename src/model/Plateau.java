@@ -32,6 +32,26 @@ public class Plateau implements Serializable {
 	public static int dy = 400;
 	public static int ressourceSize = 5;
 	public static int nombreEnergie = 100;
+	public static long duree = 120000;
+
+	public long temp = 0;
+
+	public boolean creerJoueur(Strategie s, String nom) {
+		if (joueur1 == null) {
+			Point depart = new Point(0, dy / 2);
+			joueur1 = new Joueur(nom, s, depart);
+			return true;
+
+		}
+		if (joueur2 == null) {
+			Point depart = new Point(2 * dx, dy / 2);
+			joueur2 = new Joueur(nom, s, depart);
+			return true;
+
+		}
+		return false;
+
+	}
 
 	public static Plateau charger() throws JAXBException, IOException, ClassNotFoundException {
 		InputStream is = Plateau.class.getResourceAsStream("/model/plateau.bin");
@@ -102,6 +122,30 @@ public class Plateau implements Serializable {
 			return joueur2;
 		}
 		return joueur1;
+	}
+
+	public void demarer(Joueur joueur1, Joueur joueur2) {
+		this.joueur1 = joueur1;
+		this.joueur2 = joueur2;
+		this.temp = System.currentTimeMillis();
+
+	}
+
+	public Joueur vainqueur() {
+		if (System.currentTimeMillis() - temp > duree) {
+			if (joueur1.energie() > joueur2.energie()) {
+				return joueur1;
+			}
+			return joueur2;
+
+		}
+		if (joueur1.estMort()) {
+			return joueur2;
+		}
+		if (joueur2.estMort()) {
+			return joueur1;
+		}
+		return null;
 	}
 
 	public void executer() {

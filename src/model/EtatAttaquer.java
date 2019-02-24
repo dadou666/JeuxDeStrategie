@@ -16,6 +16,10 @@ public class EtatAttaquer extends EtatUnite {
 	public void executer(Unite unite, Plateau plateau) {
 		if (deplacer == null) {
 			uniteCible = plateau.adversaire(unite.joueur).chercher(unite);
+			if (uniteCible == null) {
+				unite.actionSuivante();
+				return;
+			}
 			this.cible = new Point(uniteCible.position);
 			int dx = cible.x-unite.position.x;
 			int dy = cible.x-unite.position.y;

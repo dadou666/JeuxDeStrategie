@@ -33,7 +33,13 @@ public class Jeux implements Painter {
 
 	public void lancer(ActionEvent ae) {
 		try {
-			dessinPlateau = new DessinPlateau(Plateau.charger());
+			Strategie s = Strategie.charger("/model/strategie.xml");
+			Plateau plateau = Plateau.charger();
+			plateau.creerJoueur(s, "Ordinateur");
+			plateau.creerJoueur(editerStrategie.strategie, "Moi");
+			
+			dessinPlateau = new DessinPlateau(plateau);
+			dessinPlateau.lancerThread();
 			sb.paint("Jeux");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

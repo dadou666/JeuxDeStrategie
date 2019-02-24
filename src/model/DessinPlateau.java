@@ -33,10 +33,22 @@ public class DessinPlateau extends JComponent {
 		this.plateau = plateau;
 
 	}
-
+	public void lancerThread() {
+		
+		(new Thread(() -> {
+			try {
+				loop();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		})).start();;
+		
+	}
 	public void loop()
 			throws InterruptedException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		while (true) {
+		Joueur vainqueur = null;
+		while ((vainqueur=plateau.vainqueur()) != null) {
 			Thread.sleep(100);
 			plateau.executer();
 			SwingUtilities.invokeAndWait(new Runnable() {
@@ -49,6 +61,8 @@ public class DessinPlateau extends JComponent {
 
 			});
 		}
+		System.out.println("Le vainqueur est "+vainqueur.nom);
+		
 
 	}
 
@@ -98,6 +112,9 @@ public class DessinPlateau extends JComponent {
 	}
 
 	public void afficher(Graphics g, Energie e) {
+		if (!e.estLibre) {
+			return;
+		}
 		int taille = Plateau.ressourceSize;
 		g.fillOval(e.position.x - taille, e.position.y - taille, 2 * taille, 2 * taille);
 

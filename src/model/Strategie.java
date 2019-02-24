@@ -20,12 +20,8 @@ public class Strategie {
 		JAXBContext jaxbContext = JAXBContext.newInstance(Strategie.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-		InputStream inStream;
-		try {
-			inStream = new FileInputStream(chemin);
-		} catch (FileNotFoundException e) {
-			return null;
-		}
+		InputStream inStream = Strategie.class.getResourceAsStream(chemin);
+		
 		return (Strategie) jaxbUnmarshaller.unmarshal(inStream);
 		
 	}

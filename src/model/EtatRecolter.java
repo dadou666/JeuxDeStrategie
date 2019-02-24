@@ -24,6 +24,7 @@ public class EtatRecolter extends EtatUnite {
 
 		} else {
 			deplacer.deplacer(plateau, unite);
+		
 		}
 
 	}
@@ -32,6 +33,7 @@ public class EtatRecolter extends EtatUnite {
 	public void finDeplacer(Unite unite, Plateau plateau) {
 		if (energie.estLibre) {
 			unite.energie.add(energie);
+			energie.estLibre = false;
 			
 		}
 		unite.joueur.reservations.remove(energie);

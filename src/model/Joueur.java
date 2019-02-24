@@ -5,15 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Joueur {
+	public String nom;
 	public Point depart;
-	public List<Unite> unites;
-	public List<Projectile> projectiles;
+	public List<Unite> unites = new ArrayList<>();
+	public List<Projectile> projectiles = new ArrayList<>();
 	public List<StrategieUnit> strategieUnits = new ArrayList<>();
 	public List<Ressource> reservations = new ArrayList<>();
 
 	public EtatJoueur etatJoueur;
 
-	public Joueur(Strategie strategie, Point depart) {
+	public int energie() {
+		int energie = 0;
+		for (Unite unite : unites) {
+			energie += unite.energie.size();
+		}
+		return energie;
+	}
+
+	public boolean estMort() {
+		if (unites.size() > 0) {
+			return false;
+		}
+
+		return etatJoueur == null;
+	}
+
+	public Joueur(String nom, Strategie strategie, Point depart) {
+		this.nom = nom;
+		this.depart = depart;
 		CreationUnite creationUnite = new CreationUnite();
 		creationUnite.idx = 0;
 		creationUnite.population = 0;
@@ -27,7 +46,9 @@ public class Joueur {
 	}
 
 	public void executer(Plateau p) {
-		etatJoueur.executer(this);
+		if (etatJoueur != null) {
+			etatJoueur.executer(this);
+		}
 		unites.removeIf(unite -> {
 			unite.executer(p);
 			if (unite.vie <= 0) {
