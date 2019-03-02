@@ -57,10 +57,10 @@ public class EditerConfiguration implements Painter, ActionListener, ListSelecti
 	
 	SwingBuilder sb;
 
-	static public void main(String args[]) throws JAXBException {
+	static public void main(String args[]) throws JAXBException, FileNotFoundException {
 		SwingBuilder sb = new SwingBuilder();
 	
-		Config config = Config.charger();
+		Config config = Config.chargerFichier();
 	
 		new EditerConfiguration(sb, config);
 		sb.paint("Editeur configuration");

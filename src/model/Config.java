@@ -1,6 +1,8 @@
 package model;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Config {
 	public List<ConfigUnit> configUnits = new ArrayList<>();
 
-	public static Config charger() throws JAXBException {
+	public static Config chargerRessource() throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
@@ -30,7 +32,17 @@ public class Config {
 		return (Config) jaxbUnmarshaller.unmarshal(inStream);
 
 	}
+	public static Config chargerFichier() throws JAXBException, FileNotFoundException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
+		InputStream inStream =new FileInputStream("F:\\GitHub\\JeuxDeStrategie\\src\\model\\config.xml");
+
+	
+
+		return (Config) jaxbUnmarshaller.unmarshal(inStream);
+
+	}
 	public Strategie creerStrategie() {
 		Strategie s = new Strategie();
 		for (ConfigUnit cu : configUnits) {

@@ -22,13 +22,13 @@ public class EtatAttaquer extends EtatUnite {
 			}
 			this.cible = new Point(uniteCible.position);
 			int dx = cible.x-unite.position.x;
-			int dy = cible.x-unite.position.y;
+			int dy = cible.y-unite.position.y;
 			float d=dx*dx+dy*dy;
 			d = (float) Math.sqrt(d);
 
 			if (d >  unite.strategie.configUnit.porte) {
 				d =d - unite.strategie.configUnit.porte;
-				deplacer = new Deplacer(unite,this.cible,d);
+				deplacer = new Deplacer(unite,this.cible,unite.strategie.configUnit.vitesse,d);
 				
 				
 			} else {
@@ -36,6 +36,8 @@ public class EtatAttaquer extends EtatUnite {
 
 				
 			}
+		}else {
+			deplacer.deplacer(plateau, unite);
 		}
 
 	}
@@ -48,8 +50,10 @@ public class EtatAttaquer extends EtatUnite {
 	
 	public void tirer(Unite unite,Plateau plateau) {
 		Projectile projectile = new Projectile();
+		projectile.position = new Point(unite.position);
 		projectile.deplacer = new Deplacer(projectile,cible,unite.strategie.configUnit.vitesseTire);
 		projectile.cible = this.uniteCible;
+		projectile.unite = unite;
 		unite.etatUnit = new EtatAttenteFinTire();
 		unite.joueur.projectiles.add(projectile);
 		

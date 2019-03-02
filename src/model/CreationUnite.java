@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Point;
 
+
+
 public class CreationUnite extends EtatJoueur {
 	public int idx;
 	public int population;
@@ -10,7 +12,7 @@ public class CreationUnite extends EtatJoueur {
 	public void executer(Joueur joueur) {
 		StrategieUnit su = joueur.strategieUnits.get(idx);
 		if (population > su.configUnit.population) {
-
+			Logger.log(" population "+su.configUnit.population+" "+su.configUnit.niveau+" "+su.configUnit.nom);
 			idx++;
 			if (idx >= joueur.strategieUnits.size()) {
 
@@ -22,7 +24,7 @@ public class CreationUnite extends EtatJoueur {
 
 		}
 		population++;
-		//Logger.log("Creation unite "+su.configUnit.niveau+ " "+joueur.nom);
+	//	Logger.log("Creation unite "+su.configUnit.niveau+ " "+joueur.nom);
 		Unite unite = new Unite();
 		unite.position = new Point(joueur.depart.x, joueur.depart.y);
 		unite.strategie = su;

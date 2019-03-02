@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -15,7 +16,7 @@ public class Jeux implements Painter {
 	SwingBuilder sb;
 	DessinPlateau dessinPlateau;
 
-	public static void main(String args[]) throws JAXBException {
+	public static void main(String args[]) throws JAXBException, FileNotFoundException {
 		SwingBuilder sb = new SwingBuilder();
 
 		new Jeux(sb);
@@ -23,9 +24,9 @@ public class Jeux implements Painter {
 
 	}
 
-	public Jeux(SwingBuilder sb) throws JAXBException {
+	public Jeux(SwingBuilder sb) throws JAXBException, FileNotFoundException {
 		this.sb = sb;
-		editerStrategie = new EditerStrategie(sb, null, false);
+		editerStrategie = new EditerStrategie(sb, Strategie.chargerFichier("F:\\GitHub\\JeuxDeStrategie\\src\\model\\strategieJoueur.xml"), false);
 		sb.painter.clear();
 		sb.painter.add(this);
 		lancer.addActionListener(this::lancer);
@@ -33,7 +34,9 @@ public class Jeux implements Painter {
 
 	public void lancer(ActionEvent ae) {
 		try {
-			Strategie s = Strategie.charger("/model/strategie.xml");
+			Strategie s = Strategie.chargerFichier("F:\\GitHub\\JeuxDeStrategie\\src\\model\\strategie.xml");
+			Config config = Config.chargerFichier();
+			config.modifier(s);
 			Plateau plateau = Plateau.charger();
 			plateau.creerJoueur(s, "Ordinateur");
 			plateau.creerJoueur(editerStrategie.strategie, "Moi");

@@ -29,7 +29,7 @@ public class EditerStrategie implements Painter {
 	StrategieUnit strategieUnit;
 	DefaultListModel<Action> modelListAction = new DefaultListModel<>();
 	JList<Action> listAction = new JList<>();
-	boolean sauvegarder;
+	boolean estStrategieOrdinateur;
 
 	ZoneChoix<ConfigUnit> configUnit = new ZoneChoix("configs");
 	ZoneChoix<Action> actions = new ZoneChoix("actions");
@@ -54,14 +54,15 @@ public class EditerStrategie implements Painter {
 		};
 	}
 
-	public static void main(String args[]) throws JAXBException {
+	public static void main(String args[]) throws JAXBException, FileNotFoundException {
 		SwingBuilder sb = new SwingBuilder();
-		new EditerStrategie(sb, Strategie.charger("/model/strategie.xml"),true);
+		new EditerStrategie(sb, Strategie.chargerRessource("/model/strategie.xml"),true);
 		sb.paint("Editer strategie");
 	}
 	public void sauvegarder()  {
-		if (!sauvegarder) {
-			return;
+		String fichier = "F:\\GitHub\\JeuxDeStrategie\\src\\model\\strategie.xml";
+		if (!estStrategieOrdinateur) {
+			fichier = "F:\\GitHub\\JeuxDeStrategie\\src\\model\\strategieJoueur.xml";
 		}
 		JAXBContext jaxbContext;
 		try {
@@ -69,7 +70,7 @@ public class EditerStrategie implements Painter {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
 			
-			OutputStream os = new FileOutputStream("F:\\GitHub\\JeuxDeStrategie\\src\\model\\strategie.xml");
+			OutputStream os = new FileOutputStream(fichier);
 			jaxbMarshaller.marshal(this.strategie, os);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
@@ -111,9 +112,9 @@ public class EditerStrategie implements Painter {
 
 	}
 
-	EditerStrategie(SwingBuilder sb, Strategie s,boolean sauvegarder) throws JAXBException {
-		this.sauvegarder = sauvegarder;
-		Config config = Config.charger();
+	EditerStrategie(SwingBuilder sb, Strategie s,boolean estStrategieOrdinateur) throws JAXBException, FileNotFoundException {
+		this.estStrategieOrdinateur = estStrategieOrdinateur;
+		Config config = Config.chargerFichier();
 		if (s == null ) {
 			s = config.creerStrategie();
 		} else {
